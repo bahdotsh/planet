@@ -8,12 +8,72 @@ option go_package = "github.com/app/planet/x/blog/types";
 // Msg defines the Msg service.
 service Msg {
     // this line is used by starport scaffolding # proto/tx/rpc
+  rpc CreateTimedoutPost(MsgCreateTimedoutPost) returns (MsgCreateTimedoutPostResponse);
+  rpc UpdateTimedoutPost(MsgUpdateTimedoutPost) returns (MsgUpdateTimedoutPostResponse);
+  rpc DeleteTimedoutPost(MsgDeleteTimedoutPost) returns (MsgDeleteTimedoutPostResponse);
+  rpc CreateSentPost(MsgCreateSentPost) returns (MsgCreateSentPostResponse);
+  rpc UpdateSentPost(MsgUpdateSentPost) returns (MsgUpdateSentPostResponse);
+  rpc DeleteSentPost(MsgDeleteSentPost) returns (MsgDeleteSentPostResponse);
   rpc CreatePost(MsgCreatePost) returns (MsgCreatePostResponse);
   rpc UpdatePost(MsgUpdatePost) returns (MsgUpdatePostResponse);
   rpc DeletePost(MsgDeletePost) returns (MsgDeletePostResponse);
 }
 
 // this line is used by starport scaffolding # proto/tx/message
+message MsgCreateTimedoutPost {
+  string creator = 1;
+  string title = 2;
+  string chain = 3;
+}
+
+message MsgCreateTimedoutPostResponse {
+  uint64 id = 1;
+}
+
+message MsgUpdateTimedoutPost {
+  string creator = 1;
+  uint64 id = 2;
+  string title = 3;
+  string chain = 4;
+}
+
+message MsgUpdateTimedoutPostResponse { }
+
+message MsgDeleteTimedoutPost {
+  string creator = 1;
+  uint64 id = 2;
+}
+
+message MsgDeleteTimedoutPostResponse { }
+
+message MsgCreateSentPost {
+  string creator = 1;
+  string postID = 2;
+  string title = 3;
+  string chain = 4;
+}
+
+message MsgCreateSentPostResponse {
+  uint64 id = 1;
+}
+
+message MsgUpdateSentPost {
+  string creator = 1;
+  uint64 id = 2;
+  string postID = 3;
+  string title = 4;
+  string chain = 5;
+}
+
+message MsgUpdateSentPostResponse { }
+
+message MsgDeleteSentPost {
+  string creator = 1;
+  uint64 id = 2;
+}
+
+message MsgDeleteSentPostResponse { }
+
 message MsgCreatePost {
   string creator = 1;
   string title = 2;

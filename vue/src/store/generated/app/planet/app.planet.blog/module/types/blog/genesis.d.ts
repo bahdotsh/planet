@@ -1,9 +1,15 @@
+import { TimedoutPost } from "../blog/timedoutPost";
+import { SentPost } from "../blog/sentPost";
 import { Post } from "../blog/post";
 import { Writer, Reader } from "protobufjs/minimal";
 export declare const protobufPackage = "app.planet.blog";
 /** GenesisState defines the blog module's genesis state. */
 export interface GenesisState {
     /** this line is used by starport scaffolding # genesis/proto/state */
+    timedoutPostList: TimedoutPost[];
+    /** this line is used by starport scaffolding # genesis/proto/stateField */
+    sentPostList: SentPost[];
+    /** this line is used by starport scaffolding # genesis/proto/stateField */
     postList: Post[];
     /** this line is used by starport scaffolding # genesis/proto/stateField */
     portId: string;

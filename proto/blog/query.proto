@@ -4,6 +4,8 @@ package app.planet.blog;
 import "google/api/annotations.proto";
 import "cosmos/base/query/v1beta1/pagination.proto";
 // this line is used by starport scaffolding # 1
+import "blog/timedoutPost.proto";
+import "blog/sentPost.proto";
 import "blog/post.proto";
 
 option go_package = "github.com/app/planet/x/blog/types";
@@ -11,6 +13,20 @@ option go_package = "github.com/app/planet/x/blog/types";
 // Query defines the gRPC querier service.
 service Query {
     // this line is used by starport scaffolding # 2
+	rpc TimedoutPost(QueryGetTimedoutPostRequest) returns (QueryGetTimedoutPostResponse) {
+		option (google.api.http).get = "/app/planet/blog/timedoutPost/{id}";
+	}
+	rpc TimedoutPostAll(QueryAllTimedoutPostRequest) returns (QueryAllTimedoutPostResponse) {
+		option (google.api.http).get = "/app/planet/blog/timedoutPost";
+	}
+
+	rpc SentPost(QueryGetSentPostRequest) returns (QueryGetSentPostResponse) {
+		option (google.api.http).get = "/app/planet/blog/sentPost/{id}";
+	}
+	rpc SentPostAll(QueryAllSentPostRequest) returns (QueryAllSentPostResponse) {
+		option (google.api.http).get = "/app/planet/blog/sentPost";
+	}
+
 	rpc Post(QueryGetPostRequest) returns (QueryGetPostResponse) {
 		option (google.api.http).get = "/app/planet/blog/post/{id}";
 	}
@@ -21,6 +37,38 @@ service Query {
 }
 
 // this line is used by starport scaffolding # 3
+message QueryGetTimedoutPostRequest {
+	uint64 id = 1;
+}
+
+message QueryGetTimedoutPostResponse {
+	TimedoutPost TimedoutPost = 1;
+}
+
+message QueryAllTimedoutPostRequest {
+	cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllTimedoutPostResponse {
+	repeated TimedoutPost TimedoutPost = 1;
+	cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+message QueryGetSentPostRequest {
+	uint64 id = 1;
+}
+
+message QueryGetSentPostResponse {
+	SentPost SentPost = 1;
+}
+
+message QueryAllSentPostRequest {
+	cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllSentPostResponse {
+	repeated SentPost SentPost = 1;
+	cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
 message QueryGetPostRequest {
 	uint64 id = 1;
 }

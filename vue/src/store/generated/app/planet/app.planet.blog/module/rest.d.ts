@@ -2,8 +2,20 @@ export interface BlogMsgCreatePostResponse {
     /** @format uint64 */
     id?: string;
 }
+export interface BlogMsgCreateSentPostResponse {
+    /** @format uint64 */
+    id?: string;
+}
+export interface BlogMsgCreateTimedoutPostResponse {
+    /** @format uint64 */
+    id?: string;
+}
 export declare type BlogMsgDeletePostResponse = object;
+export declare type BlogMsgDeleteSentPostResponse = object;
+export declare type BlogMsgDeleteTimedoutPostResponse = object;
 export declare type BlogMsgUpdatePostResponse = object;
+export declare type BlogMsgUpdateSentPostResponse = object;
+export declare type BlogMsgUpdateTimedoutPostResponse = object;
 export interface BlogPost {
     creator?: string;
     /** @format uint64 */
@@ -24,8 +36,55 @@ export interface BlogQueryAllPostResponse {
      */
     pagination?: V1Beta1PageResponse;
 }
+export interface BlogQueryAllSentPostResponse {
+    SentPost?: BlogSentPost[];
+    /**
+     * PageResponse is to be embedded in gRPC response messages where the
+     * corresponding request message has used PageRequest.
+     *
+     *  message SomeResponse {
+     *          repeated Bar results = 1;
+     *          PageResponse page = 2;
+     *  }
+     */
+    pagination?: V1Beta1PageResponse;
+}
+export interface BlogQueryAllTimedoutPostResponse {
+    TimedoutPost?: BlogTimedoutPost[];
+    /**
+     * PageResponse is to be embedded in gRPC response messages where the
+     * corresponding request message has used PageRequest.
+     *
+     *  message SomeResponse {
+     *          repeated Bar results = 1;
+     *          PageResponse page = 2;
+     *  }
+     */
+    pagination?: V1Beta1PageResponse;
+}
 export interface BlogQueryGetPostResponse {
     Post?: BlogPost;
+}
+export interface BlogQueryGetSentPostResponse {
+    SentPost?: BlogSentPost;
+}
+export interface BlogQueryGetTimedoutPostResponse {
+    TimedoutPost?: BlogTimedoutPost;
+}
+export interface BlogSentPost {
+    creator?: string;
+    /** @format uint64 */
+    id?: string;
+    postID?: string;
+    title?: string;
+    chain?: string;
+}
+export interface BlogTimedoutPost {
+    creator?: string;
+    /** @format uint64 */
+    id?: string;
+    title?: string;
+    chain?: string;
 }
 export interface ProtobufAny {
     typeUrl?: string;
@@ -164,9 +223,51 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
      *
      * @tags Query
      * @name QueryPost
-     * @summary this line is used by starport scaffolding # 2
      * @request GET:/app/planet/blog/post/{id}
      */
     queryPost: (id: string, params?: RequestParams) => Promise<HttpResponse<BlogQueryGetPostResponse, RpcStatus>>;
+    /**
+     * No description
+     *
+     * @tags Query
+     * @name QuerySentPostAll
+     * @request GET:/app/planet/blog/sentPost
+     */
+    querySentPostAll: (query?: {
+        "pagination.key"?: string;
+        "pagination.offset"?: string;
+        "pagination.limit"?: string;
+        "pagination.countTotal"?: boolean;
+    }, params?: RequestParams) => Promise<HttpResponse<BlogQueryAllSentPostResponse, RpcStatus>>;
+    /**
+     * No description
+     *
+     * @tags Query
+     * @name QuerySentPost
+     * @request GET:/app/planet/blog/sentPost/{id}
+     */
+    querySentPost: (id: string, params?: RequestParams) => Promise<HttpResponse<BlogQueryGetSentPostResponse, RpcStatus>>;
+    /**
+     * No description
+     *
+     * @tags Query
+     * @name QueryTimedoutPostAll
+     * @request GET:/app/planet/blog/timedoutPost
+     */
+    queryTimedoutPostAll: (query?: {
+        "pagination.key"?: string;
+        "pagination.offset"?: string;
+        "pagination.limit"?: string;
+        "pagination.countTotal"?: boolean;
+    }, params?: RequestParams) => Promise<HttpResponse<BlogQueryAllTimedoutPostResponse, RpcStatus>>;
+    /**
+     * No description
+     *
+     * @tags Query
+     * @name QueryTimedoutPost
+     * @summary this line is used by starport scaffolding # 2
+     * @request GET:/app/planet/blog/timedoutPost/{id}
+     */
+    queryTimedoutPost: (id: string, params?: RequestParams) => Promise<HttpResponse<BlogQueryGetTimedoutPostResponse, RpcStatus>>;
 }
 export {};

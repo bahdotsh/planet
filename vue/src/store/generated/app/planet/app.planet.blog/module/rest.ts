@@ -14,9 +14,27 @@ export interface BlogMsgCreatePostResponse {
   id?: string;
 }
 
+export interface BlogMsgCreateSentPostResponse {
+  /** @format uint64 */
+  id?: string;
+}
+
+export interface BlogMsgCreateTimedoutPostResponse {
+  /** @format uint64 */
+  id?: string;
+}
+
 export type BlogMsgDeletePostResponse = object;
 
+export type BlogMsgDeleteSentPostResponse = object;
+
+export type BlogMsgDeleteTimedoutPostResponse = object;
+
 export type BlogMsgUpdatePostResponse = object;
+
+export type BlogMsgUpdateSentPostResponse = object;
+
+export type BlogMsgUpdateTimedoutPostResponse = object;
 
 export interface BlogPost {
   creator?: string;
@@ -42,8 +60,65 @@ export interface BlogQueryAllPostResponse {
   pagination?: V1Beta1PageResponse;
 }
 
+export interface BlogQueryAllSentPostResponse {
+  SentPost?: BlogSentPost[];
+
+  /**
+   * PageResponse is to be embedded in gRPC response messages where the
+   * corresponding request message has used PageRequest.
+   *
+   *  message SomeResponse {
+   *          repeated Bar results = 1;
+   *          PageResponse page = 2;
+   *  }
+   */
+  pagination?: V1Beta1PageResponse;
+}
+
+export interface BlogQueryAllTimedoutPostResponse {
+  TimedoutPost?: BlogTimedoutPost[];
+
+  /**
+   * PageResponse is to be embedded in gRPC response messages where the
+   * corresponding request message has used PageRequest.
+   *
+   *  message SomeResponse {
+   *          repeated Bar results = 1;
+   *          PageResponse page = 2;
+   *  }
+   */
+  pagination?: V1Beta1PageResponse;
+}
+
 export interface BlogQueryGetPostResponse {
   Post?: BlogPost;
+}
+
+export interface BlogQueryGetSentPostResponse {
+  SentPost?: BlogSentPost;
+}
+
+export interface BlogQueryGetTimedoutPostResponse {
+  TimedoutPost?: BlogTimedoutPost;
+}
+
+export interface BlogSentPost {
+  creator?: string;
+
+  /** @format uint64 */
+  id?: string;
+  postID?: string;
+  title?: string;
+  chain?: string;
+}
+
+export interface BlogTimedoutPost {
+  creator?: string;
+
+  /** @format uint64 */
+  id?: string;
+  title?: string;
+  chain?: string;
 }
 
 export interface ProtobufAny {
@@ -341,12 +416,90 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
    *
    * @tags Query
    * @name QueryPost
-   * @summary this line is used by starport scaffolding # 2
    * @request GET:/app/planet/blog/post/{id}
    */
   queryPost = (id: string, params: RequestParams = {}) =>
     this.request<BlogQueryGetPostResponse, RpcStatus>({
       path: `/app/planet/blog/post/${id}`,
+      method: "GET",
+      format: "json",
+      ...params,
+    });
+
+  /**
+   * No description
+   *
+   * @tags Query
+   * @name QuerySentPostAll
+   * @request GET:/app/planet/blog/sentPost
+   */
+  querySentPostAll = (
+    query?: {
+      "pagination.key"?: string;
+      "pagination.offset"?: string;
+      "pagination.limit"?: string;
+      "pagination.countTotal"?: boolean;
+    },
+    params: RequestParams = {},
+  ) =>
+    this.request<BlogQueryAllSentPostResponse, RpcStatus>({
+      path: `/app/planet/blog/sentPost`,
+      method: "GET",
+      query: query,
+      format: "json",
+      ...params,
+    });
+
+  /**
+   * No description
+   *
+   * @tags Query
+   * @name QuerySentPost
+   * @request GET:/app/planet/blog/sentPost/{id}
+   */
+  querySentPost = (id: string, params: RequestParams = {}) =>
+    this.request<BlogQueryGetSentPostResponse, RpcStatus>({
+      path: `/app/planet/blog/sentPost/${id}`,
+      method: "GET",
+      format: "json",
+      ...params,
+    });
+
+  /**
+   * No description
+   *
+   * @tags Query
+   * @name QueryTimedoutPostAll
+   * @request GET:/app/planet/blog/timedoutPost
+   */
+  queryTimedoutPostAll = (
+    query?: {
+      "pagination.key"?: string;
+      "pagination.offset"?: string;
+      "pagination.limit"?: string;
+      "pagination.countTotal"?: boolean;
+    },
+    params: RequestParams = {},
+  ) =>
+    this.request<BlogQueryAllTimedoutPostResponse, RpcStatus>({
+      path: `/app/planet/blog/timedoutPost`,
+      method: "GET",
+      query: query,
+      format: "json",
+      ...params,
+    });
+
+  /**
+   * No description
+   *
+   * @tags Query
+   * @name QueryTimedoutPost
+   * @summary this line is used by starport scaffolding # 2
+   * @request GET:/app/planet/blog/timedoutPost/{id}
+   */
+  queryTimedoutPost = (id: string, params: RequestParams = {}) =>
+    this.request<BlogQueryGetTimedoutPostResponse, RpcStatus>({
+      path: `/app/planet/blog/timedoutPost/${id}`,
       method: "GET",
       format: "json",
       ...params,

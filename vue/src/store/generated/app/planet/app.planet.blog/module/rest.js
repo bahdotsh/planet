@@ -155,11 +155,65 @@ export class Api extends HttpClient {
          *
          * @tags Query
          * @name QueryPost
-         * @summary this line is used by starport scaffolding # 2
          * @request GET:/app/planet/blog/post/{id}
          */
         this.queryPost = (id, params = {}) => this.request({
             path: `/app/planet/blog/post/${id}`,
+            method: "GET",
+            format: "json",
+            ...params,
+        });
+        /**
+         * No description
+         *
+         * @tags Query
+         * @name QuerySentPostAll
+         * @request GET:/app/planet/blog/sentPost
+         */
+        this.querySentPostAll = (query, params = {}) => this.request({
+            path: `/app/planet/blog/sentPost`,
+            method: "GET",
+            query: query,
+            format: "json",
+            ...params,
+        });
+        /**
+         * No description
+         *
+         * @tags Query
+         * @name QuerySentPost
+         * @request GET:/app/planet/blog/sentPost/{id}
+         */
+        this.querySentPost = (id, params = {}) => this.request({
+            path: `/app/planet/blog/sentPost/${id}`,
+            method: "GET",
+            format: "json",
+            ...params,
+        });
+        /**
+         * No description
+         *
+         * @tags Query
+         * @name QueryTimedoutPostAll
+         * @request GET:/app/planet/blog/timedoutPost
+         */
+        this.queryTimedoutPostAll = (query, params = {}) => this.request({
+            path: `/app/planet/blog/timedoutPost`,
+            method: "GET",
+            query: query,
+            format: "json",
+            ...params,
+        });
+        /**
+         * No description
+         *
+         * @tags Query
+         * @name QueryTimedoutPost
+         * @summary this line is used by starport scaffolding # 2
+         * @request GET:/app/planet/blog/timedoutPost/{id}
+         */
+        this.queryTimedoutPost = (id, params = {}) => this.request({
+            path: `/app/planet/blog/timedoutPost/${id}`,
             method: "GET",
             format: "json",
             ...params,
